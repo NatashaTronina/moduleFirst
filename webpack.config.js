@@ -1,33 +1,46 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
+
+const path = require('node:path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_models/,
-                loader: 'babel-loader',
-            },
-            {
-                test: /\.txt$/, //регулярное выражение
-                loader: 'raw-loader', // позволяет прочитать содержимое файла в текст
-            },
-            {
-                test: /\.css$/, //регулярное выражение
-                use: [
-                    MiniCSSExtractPlugin.loader,
-                    'css-loader'
-                ]
-            }
-        ]
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './src/index.html', // Здесь указали файл
-            filename: 'main.html' // здесь его переименовали
-        }),
-        new MiniCSSExtractPlugin()
-    ]
-}
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+          },
+        ],
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+      }
+    ],
+  },
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: './src/index.html',
+      filename: './index.html',
+    })
+  ],
+};
