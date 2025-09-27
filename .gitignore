@@ -1,0 +1,8 @@
+node_modules/
+dist/
+build/
+*.log
+.env # Если у вас есть файл с секретными данными
+*.tmp
+# Файлы IDE, например для VS Code:
+.vscode/
